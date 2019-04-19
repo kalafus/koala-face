@@ -1,0 +1,7 @@
+{
+	"devDependencies": {
+		"koa": "^2.7.0",
+		"koa-better-serve": "^2.0.7",
+		"koa-compress": "^3.0.0"
+	}
+}
