@@ -1,37 +1,35 @@
-## Welcome to GitHub Pages
+# koala-face
 
-You can use the [editor on GitHub](https://github.com/kalafus/koala-face/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+## The Decentest Little Static Server
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+We leverage Koa to make a trivially secure bandwidth efficient static file server!
 
-### Markdown
+- **ipfilter** Permit and Ban IPs OOB!
+- **koa-helmet** Improved security, protected OOB!
+- **koa-compress** Enables compression, fast OOB!
+- **koa-static** Static server, unlimited instances OOB!
+- **koa** Ties it all together OOB!
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+## Basic Configuration
 
-```markdown
-Syntax highlighted code block
+### ipfilter with regular expressions
 
-# Header 1
-## Header 2
-### Header 3
+ipfilter drops all ips by default except localhost on ipv4 and ipv6. This is suitable for development testing only! It is also secured by default should this be deployed unconfigured.
 
-- Bulleted
-- List
+In server.js, edit handler function or permitted and banned lists. By default, reject
 
-1. Numbered
-2. List
+`const optsIp = {
+	permitted: [
+		/^127\.0\.0\.1$/,
+		/^::1$/
+	],
+	banned: [
+	],
+	handler: async (ctx, next) => {
+	}
+}`
 
-**Bold** and _Italic_ and `Code` text
+### filter routing by host
 
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/kalafus/koala-face/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+Default route `koa.use(domain('localhost', koaStatic('dist')))` is suitable for development testing only!
+`koa.use(domain('mysite.net', koaStatic('dist')))` would point the public server to the same relatively addressed folder (and could just as well point to any other statically servable folder).
