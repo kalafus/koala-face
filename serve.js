@@ -1,4 +1,5 @@
 'use strict'
+const koaTrivialIpfw = require('./koa-trivial-ipfilter.js')
 // const koaMount = require('koa-mount')
 const koaStatic = require('koa-static')
 const koaHelmet = require('koa-helmet')
@@ -7,6 +8,16 @@ const Koa = require('koa')
 const koa = new Koa()
 
 const listeningPort = 8080
+const optsIp = {
+	permitted: [
+		/^127\.0\.0\.1$/,
+		/^::1$/
+	],
+	banned: [
+	],
+	handler: async (ctx, next) => {
+	}
+}
 
 const logger = () => {
 	return async (ctx, next) => {
@@ -44,6 +55,7 @@ const domain = (hostname, mw) => {
 
 koa.use(logger())
 koa.use(xResponseTime())
+koa.use(koaTrivialIpfw(optsIp))
 koa.use(koaCompress())
 koa.use(koaHelmet())
 koa.use(standardHeaders())
