@@ -4,21 +4,27 @@
 
 We leverage Koa to make a trivially secure bandwidth efficient static file server!
 
-- **ipfilter** Permit and Ban IPs OOB!
-- **koa-helmet** Improved security, protected OOB!
-- **koa-compress** Enables compression, fast OOB!
-- **koa-static** Static server, unlimited instances OOB!
-- **koa** Ties it all together OOB!
-
 ## Basic Configuration
+
+### filter routing by host
+
+Default route in serve.js.
+`koa.use(domain('localhost', koaStatic('dist')))`
+is suitable for development testing by default.
+
+Your real web address will go also in serve.js. N.B., routes will match in the order registered.
+`koa.use(domain('mysite.net', koaStatic('dist')))`
+This would route the requestor of `mysite.net` to the assets available in `./dist/` (and could just as well point to any other statically servable folder).
+
+Any files you put in the indicated folder will be accessible to visitors.
 
 ### ipfilter with regular expressions
 
-ipfilter drops all ips by default except localhost on ipv4 and ipv6. This is suitable for development testing only! It is also secured by default should this be deployed unconfigured.
+ipfilter drops all ips by default except localhost on ipv4 and ipv6. This is suitable for development testing only - this way, it is also secured by default should this be deployed unconfigured!
 
-In server.js, edit handler function or permitted and banned lists. By default, reject
+In server.js, edit handler function or permitted and banned lists.
 
-`const optsIp = {
+```const optsIp = {
 	permitted: [
 		/^127\.0\.0\.1$/,
 		/^::1$/
@@ -27,9 +33,8 @@ In server.js, edit handler function or permitted and banned lists. By default, r
 	],
 	handler: async (ctx, next) => {
 	}
-}`
+}```
 
-### filter routing by host
+To permit all requests, change `permitted` to `[ /.*/ ]`.
 
-Default route `koa.use(domain('localhost', koaStatic('dist')))` is suitable for development testing only!
-`koa.use(domain('mysite.net', koaStatic('dist')))` would point the public server to the same relatively addressed folder (and could just as well point to any other statically servable folder).
+**Happy Serving!**
