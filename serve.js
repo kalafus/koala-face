@@ -1,5 +1,5 @@
 'use strict'
-const koaTrivialIpfw = require('./koa-trivial-ipfilter.js')
+const ipfilter = require('./ipfilter.js')
 // const koaMount = require('koa-mount')
 const koaStatic = require('koa-static')
 const koaHelmet = require('koa-helmet')
@@ -55,7 +55,7 @@ const domain = (hostname, mw) => {
 
 koa.use(logger())
 koa.use(xResponseTime())
-koa.use(koaTrivialIpfw(optsIp))
+koa.use(ipfilter(optsIp))
 koa.use(koaCompress())
 koa.use(koaHelmet())
 koa.use(standardHeaders())
