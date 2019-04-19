@@ -4,6 +4,15 @@
 
 We leverage Koa to make a trivially secure bandwidth efficient static file server!
 
+### Installation
+
+git clone https://github.com/kalafus/koala-face
+cp koala-face/{ipfilter.js,serve.js} $MYPROJECT
+
+### Use
+
+node serve
+
 ## Basic Configuration
 
 ### filter routing by host
