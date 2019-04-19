@@ -24,7 +24,8 @@ ipfilter drops all ips by default except localhost on ipv4 and ipv6. This is sui
 
 In server.js, edit handler function or permitted and banned lists.
 
-```const optsIp = {
+```
+const optsIp = {
 	permitted: [
 		/^127\.0\.0\.1$/,
 		/^::1$/
@@ -33,7 +34,8 @@ In server.js, edit handler function or permitted and banned lists.
 	],
 	handler: async (ctx, next) => {
 	}
-}```
+}
+```
 
 To permit all requests, change `permitted` to `[ /.*/ ]`.
 
