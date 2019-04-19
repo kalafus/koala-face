@@ -9,48 +9,48 @@ const koa = new Koa()
 
 const listeningPort = 8080
 const optsIp = {
-	permitted: [
-		/^127\.0\.0\.1$/,
-		/^::1$/
-	],
-	banned: [
-	],
-	handler: async (ctx, next) => {
-	}
+  permitted: [
+    /^127\.0\.0\.1$/,
+    /^::1$/
+  ],
+  banned: [
+  ],
+  handler: async (ctx, next) => {
+  }
 }
 
 const logger = () => {
-	return async (ctx, next) => {
-		await next()
-		const rt = ctx.response.get('X-Response-Time')
-		console.log(` method]${ctx.method} status]${ctx.status} ip]${ctx.ip} host/url]${ctx.host}${ctx.url} responseTime]${rt} userAgent]${ctx.request.headers['user-agent'].split(' ')[ ctx.request.headers['user-agent'].split(' ').length - 1 ]} `)
-	}
+  return async (ctx, next) => {
+    await next()
+    const rt = ctx.response.get('X-Response-Time')
+    console.log(` method]${ctx.method} status]${ctx.status} ip]${ctx.ip} host/url]${ctx.host}${ctx.url} responseTime]${rt} userAgent]${ctx.request.headers['user-agent'].split(' ')[ ctx.request.headers['user-agent'].split(' ').length - 1 ]} `)
+  }
 }
 
 const standardHeaders = () => {
-	return async (ctx, next) => {
-		ctx.response.set('Cache-Control', 'max-age=99999999999999')
-		await next()
-	}
+  return async (ctx, next) => {
+    ctx.response.set('Cache-Control', 'max-age=99999999999999')
+    await next()
+  }
 }
 
 const xResponseTime = () => {
-	return async (ctx, next) => {
-		const start = Date.now()
-		await next()
-		const ms = Date.now() - start
-		ctx.set('X-Response-Time', `${ms}ms`)
-	}
+  return async (ctx, next) => {
+    const start = Date.now()
+    await next()
+    const ms = Date.now() - start
+    ctx.set('X-Response-Time', `${ms}ms`)
+  }
 }
 
 const domain = (hostname, mw) => {
-	return async (ctx, next) => {
-		if (ctx.host === hostname || ctx.host.split(':')[0] === hostname) {
-			await mw.call(this, ctx, next)
-		} else {
-			await next()
-		}
-	}
+  return async (ctx, next) => {
+    if (ctx.host === hostname || ctx.host.split(':')[0] === hostname) {
+      await mw.call(this, ctx, next)
+    } else {
+      await next()
+    }
+  }
 }
 
 koa.use(logger())
