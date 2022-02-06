@@ -14,6 +14,7 @@ const optsIp = {
     /^::1$/
   ],
   banned: [
+//    /^255(\.255){3}$/
   ],
   handler: async (ctx, next) => {
   }
@@ -47,6 +48,7 @@ const domain = (hostname, mw) => {
   return async (ctx, next) => {
     if (ctx.host === hostname || ctx.host.split(':')[0] === hostname) {
       await mw.call(this, ctx, next)
+      //ctx.body = 'foo'
     } else {
       await next()
     }

@@ -1,6 +1,6 @@
 {
   "name": "koala-face",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Insta Server",
   "author": "James J. Kalafus <kalafus@alum.swarthmore.edu>",
   "license": "MIT",
@@ -10,9 +10,9 @@
     "start": "node serve"
   },
   "devDependencies": {
-    "koa": "^2.7.0",
-    "koa-compress": "^3.0.0",
-    "koa-helmet": "^4.1.0",
-    "koa-static": "^5.0.0"
+    "koa": "<3.0.0",
+    "koa-compress": ">=5.1.0",
+    "koa-helmet": ">=6.1.0",
+    "koa-static": ">=5.0.0"
   }
 }
