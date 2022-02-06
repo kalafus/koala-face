@@ -10,12 +10,19 @@ module.exports = (opts) => {
       pass = opts.permitted.some((regexp) => {
         return regexp.test(ip)
       })
+
+      if (process.env.VERBOSE && !pass) {
+        console.log(`NON-PERMITTED requestor]${ip} matches_no_regexp`)
+      }
     }
 
     if (pass && opts.banned && Array.isArray(opts.banned)) {
       pass = !opts.banned.some((regexp) => {
-        console.log(`BANNED requestor]${ip} matches_regexp]${regexp}`)
-        return regexp.test(ip)
+        let isMatch = regexp.test(ip)
+        if (process.env.VERBOSE && isMatch) {
+          console.log(`BANNED requestor]${ip} matches_regexp]${regexp}`)
+        }
+        return isMatch
       })
     }
 

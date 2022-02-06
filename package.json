@@ -6,8 +6,9 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "serve": "node serve",
-    "start": "node serve"
+    "start": "node serve",
+    "serve": "npm start",
+    "debug": "export LOCALHOST=1; export VERBOSE=1; export PORT=80; npm start"
   },
   "devDependencies": {
     "koa": "<3.0.0",

@@ -7,16 +7,24 @@ const koaCompress = require('koa-compress')
 const Koa = require('koa')
 const koa = new Koa()
 
-const listeningPort = 8080
+const listeningPort = process.env.PORT || 8080
+const domains = {
+  /*directory: domain*/
+}
 const optsIp = {
-  permitted: [
-    /^127\.0\.0\.1$/,
-    /^::1$/
-  ],
+  permitted: process.env.LOCALHOST ?
+    [
+      /^127\.0\.0\.1$/,
+      /^::1$/
+    ] :
+    [
+      /^.*$/
+    ],
   banned: [
 //    /^255(\.255){3}$/
   ],
   handler: async (ctx, next) => {
+    ctx.throw(403)
   }
 }
 
@@ -30,7 +38,7 @@ const logger = () => {
 
 const standardHeaders = () => {
   return async (ctx, next) => {
-    ctx.response.set('Cache-Control', 'max-age=99999999999999')
+    ctx.response.set('Cache-Control', 'max-age=86400')
     await next()
   }
 }
@@ -62,7 +70,13 @@ koa.use(koaCompress())
 koa.use(koaHelmet())
 koa.use(standardHeaders())
 
-koa.use(domain('localhost', koaStatic('dist')))
+if (process.env.LOCALHOST) {
+  koa.use(domain('localhost', koaStatic('dist')))
+} else {
+  for (let dir in domains) {
+    koa.use(domain(domains[dir], koaStatic(dir)))
+  }
+}
 
 koa.listen(listeningPort)
 console.log(`listening]${listeningPort}`)
