@@ -11,7 +11,7 @@
     "debug": "export LOCALHOST=1; export VERBOSE=1; export PORT=80; npm start"
   },
   "devDependencies": {
-    "koa": "<3.0.0",
+    "koa": "<4.0.0",
     "koa-compress": ">=5.1.0",
     "koa-helmet": ">=6.1.0",
     "koa-static": ">=5.0.0"
